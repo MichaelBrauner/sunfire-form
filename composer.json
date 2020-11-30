@@ -1,0 +1,25 @@
+{
+    "name": "sunfire/form",
+    "description": "Form package for the Sunfire CMS",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael Brauner",
+            "email": "michaelbrauner82@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Sunfire\\Form\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Sunfire\\Form\\SunfireFormServiceProvider"
+            ]
+        }
+    }
+}
