@@ -136,6 +136,7 @@
                     }
                 },
                 onArrowUp() {
+
                     if (this.highlightedIndex === null && this.results.length) {
                         this.highlightedIndex = this.results.length - 1;
                     } else if (this.highlightedIndex === 0 && this.results.length === 1) {
