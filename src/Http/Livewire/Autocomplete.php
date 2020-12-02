@@ -55,7 +55,7 @@ abstract class Autocomplete extends Component
             return false;
         }
 
-        if (!$uuid) {
+        if (!$uuid || $uuid === '__add-this__') {
             $uuid = Str::uuid()->toString();
         }
 
