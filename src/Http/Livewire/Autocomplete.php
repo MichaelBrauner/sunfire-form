@@ -18,6 +18,8 @@ abstract class Autocomplete extends Component
     public $class;
     public $limit;
 
+    public $params;
+
     abstract public function query(string $term);
     abstract public function valueChanged($data);
 
