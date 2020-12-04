@@ -73,14 +73,15 @@
                     }
 
                 },
-                focusAfterAdding() {
+                focusAfterAdding(id) {
+
                     Livewire.hook('message.processed', (message, component) => {
 
-                        if (message.updateQueue[0].method === 'addItem') {
+                        if (message.updateQueue[0].method === 'addItem' && component.id === id) {
                             this.$refs.textInput.focus()
                         }
 
-                        if (message.updateQueue[0].method === 'query') {
+                        if (message.updateQueue[0].method === 'query' && component.id === id) {
                             this.$refs.textInput.focus()
                         }
                     })
@@ -161,12 +162,11 @@
 
     </script>
 
-    <div x-data="autocomplete()" x-init="focusAfterAdding()"
+    <div x-data="autocomplete()" x-init="focusAfterAdding('{{$this->id}}')"
          @if ($class) class="{{$class}}" @endif
          x-on:keydown.arrow-up.prevent="onArrowUp()"
          x-on:keydown.arrow-down.prevent="onArrowDown()"
          data-last-item-uuid="{{$this->selected->last() ? $this->selected->last()['uuid'] : null }}">
-
 
         <x-inputs.base-input-container :label="$label" :id="$this->id . '_input'" :inline="$inline">
 
