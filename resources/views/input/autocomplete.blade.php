@@ -60,7 +60,7 @@
                 },
                 keydown(event, limit) {
 
-                    if (limit !== null && limit <= this.selected.length) {
+                    if (limit !== null && event.code !== 'Tab' && limit <= this.selected.length) {
                         this.stopEvent(event)
                     }
 
