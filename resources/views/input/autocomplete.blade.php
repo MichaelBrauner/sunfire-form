@@ -181,7 +181,7 @@
          x-on:keydown.arrow-down.prevent="onArrowDown()"
          data-last-item-uuid="{{$this->selected->last() ? $this->selected->last()['uuid'] : null }}">
 
-        <x-inputs.base-input-container :label="$label" :id="$this->id . '_input'" :inline="$inline">
+        <x-sunfire::input.base-input-container :label="$label" :id="$this->id . '_input'" :inline="$inline">
 
             <div x-on:click="$refs.textInput ? $refs.textInput.focus() : null"
                  x-on:click.away="clearSearch()"
@@ -248,6 +248,6 @@
 
                 </ul>
             </div>
-        </x-inputs.base-input-container>
+        </x-sunfire::input.base-input-container>
     </div>
 </div>
