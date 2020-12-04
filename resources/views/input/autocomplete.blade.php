@@ -109,7 +109,7 @@
                 prependAddThis(name) {
                     !this.results.filter(tag => tag.uuid === '__add-this__').length && this.results.unshift({
                         'uuid': '__add-this__',
-                        'name': 'Add ' + name
+                        'name': name
                     })
                 },
                 isTermLongEnough(term) {
@@ -156,7 +156,20 @@
                             this.highlightedIndex < (this.results.length - 1) ? this.highlightedIndex++ : this.highlightedIndex = 0;
                         }
                     }
-                }
+                },
+                addTagByUuid(event) {
+                    const element = event.target
+                    const tagsEl = this.results[element.getAttribute('data-list-key')];
+
+                    const uuid = tagsEl.uuid
+                    const name = this.results[element.getAttribute('data-list-key')].name
+
+                    if (uuid && name) {
+                        this.$wire.addItem(name, uuid)
+                    }
+
+                    this.clearSearch()
+                },
             }
         }
 
@@ -220,14 +233,14 @@
                     <template x-for="(item, index) in Object.values(results)" :key="index">
 
                         <li :id="'listbox-option-' + item.uuid" role="option"
-                            x-on:click="enter($event)"
-                            {{--                            x-on:click="$wire.addItem(JSON.stringify($event.target.innerText), $event.target.getAttribute('data-uuid'))"--}}
+                            x-on:click="addTagByUuid($event)"
                             :data-list-key="index"
                             :class="{'text-white bg-gray-600': highlightedIndex === index, 'text-gray-800': highlightedIndex !== index }"
                             class="cursor-default select-none relative py-2 pl-3 pr-9 hover:text-white hover:bg-gray-700">
                             <span class="font-normal block truncate"
                                   :class="{'font-semibold': highlightedIndex === index, 'font-normal': highlightedIndex !== index}"
-                                  x-text="item.name" :data-uuid="item.uuid"
+                                  x-text="item.uuid !== '__add-this__' ? item.name : '{{__('Add')}} '+ item.name"
+                                  :data-uuid="item.uuid"
                                   :data-list-key="index"></span>
                             </span>
                         </li>
