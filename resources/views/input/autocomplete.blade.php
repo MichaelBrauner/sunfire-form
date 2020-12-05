@@ -9,9 +9,15 @@
                 highlightedIndex: null,
                 results: [],
                 open: false,
-                threshold: 2,
+                threshold: @entangle('threshold'),
+                resultBoxHeight: 'auto',
+                resultBoxHeightItemRange: @entangle('resultBoxHeight'),
                 get searchTerm() {
                     return this.$refs.textInput.innerText
+                },
+                init() {
+                    this.focusAfterAdding(this.$el.getAttribute('data-component-id'))
+                    this.$watch('highlightedIndex', value => this.scrollToView(value))
                 },
                 clearSearch() {
                     this.$refs.textInput.innerHTML = ''
@@ -104,6 +110,7 @@
                         }
 
                         this.results.length && !termExists && this.toggleSearch()
+                        this.$nextTick(() => this.setResultBoxHeight())
                     }
                 },
                 prependAddThis(name) {
@@ -170,16 +177,44 @@
 
                     this.clearSearch()
                 },
+                setResultBoxHeight() {
+                    const items = this.$refs.resultList.getElementsByTagName('LI')
+                    const totalItems = items.length
+                    let result = 0
+
+                    if (totalItems > this.resultBoxHeightItemRange) {
+                        for (i = 0, tags = items; i < this.resultBoxHeightItemRange; i++) {
+                            result += tags.item(i).offsetHeight
+                        }
+                    }
+
+                    this.resultBoxHeight = result ? result + 'px' : 'auto'
+                },
+                scrollToView(index) {
+
+                    const activeElement = this.$refs.resultList.querySelectorAll(`[data-list-key="${index}"]`)
+
+                    if (activeElement.length) {
+                        activeElement[0].scrollIntoView({
+                            block: 'nearest',
+                            inline: 'start',
+                            behavior: 'smooth',
+                            boundary: this.$el
+                        });
+                    }
+                }
             }
         }
 
     </script>
 
-    <div x-data="autocomplete()" x-init="focusAfterAdding('{{$this->id}}')"
+    <div x-data="autocomplete()" x-init="init()"
          @if ($class) class="{{$class}}" @endif
          x-on:keydown.arrow-up.prevent="onArrowUp()"
          x-on:keydown.arrow-down.prevent="onArrowDown()"
-         data-last-item-uuid="{{$this->selected->last() ? $this->selected->last()['uuid'] : null }}">
+         data-last-item-uuid="{{$this->selected->last() ? $this->selected->last()['uuid'] : null }}"
+         data-component-id="{{$this->id}}"
+    >
 
         <x-sunfire::input.base-input-container :label="$label" :id="$this->id . '_input'" :inline="$inline">
 
@@ -228,7 +263,9 @@
             <div x-show="open" class="absolute mt-1 w-full rounded-md bg-white shadow-lg z-10">
                 <ul tabindex="-1" role="listbox" aria-labelledby="listbox-label"
                     aria-activedescendant="listbox-item-3"
-                    class="max-h-60 rounded-md py-1 text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5">
+                    x-ref="resultList"
+                    x-bind:style="`max-height: ${resultBoxHeight}`"
+                    class="max-h-60 rounded-md text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5">
 
                     <template x-for="(item, index) in Object.values(results)" :key="index">
 
@@ -240,8 +277,7 @@
                             <span class="font-normal block truncate"
                                   :class="{'font-semibold': highlightedIndex === index, 'font-normal': highlightedIndex !== index}"
                                   x-text="item.uuid !== '__add-this__' ? item.name : '{{__('Add')}} '+ item.name"
-                                  :data-uuid="item.uuid"
-                                  :data-list-key="index"></span>
+                                  :data-uuid="item.uuid"></span>
                             </span>
                         </li>
                     </template>

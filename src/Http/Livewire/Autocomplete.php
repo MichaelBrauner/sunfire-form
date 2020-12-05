@@ -19,6 +19,8 @@ abstract class Autocomplete extends Component
     public $limit;
 
     public $params;
+    public $threshold = 2;
+    public $resultBoxHeight = 4;
 
     abstract public function query(string $term);
     abstract public function valueChanged($data);
