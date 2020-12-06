@@ -166,10 +166,10 @@
                 },
                 addTagByUuid(event) {
                     const element = event.target
-                    const tagsEl = this.results[element.getAttribute('data-list-key')];
+                    const tagsEl = this.results[element.getAttribute('data-span-list-key')];
 
                     const uuid = tagsEl.uuid
-                    const name = this.results[element.getAttribute('data-list-key')].name
+                    const name = this.results[element.getAttribute('data-span-list-key')].name
 
                     if (uuid && name) {
                         this.$wire.addItem(name, uuid)
@@ -277,7 +277,8 @@
                             <span class="font-normal block truncate"
                                   :class="{'font-semibold': highlightedIndex === index, 'font-normal': highlightedIndex !== index}"
                                   x-text="item.uuid !== '__add-this__' ? item.name : '{{__('Add')}} '+ item.name"
-                                  :data-uuid="item.uuid"></span>
+                                  :data-uuid="item.uuid"
+                                  :data-span-list-key="index"></span>
                             </span>
                         </li>
                     </template>
