@@ -17,13 +17,14 @@ abstract class Autocomplete extends Component
     public $inline;
     public $class;
     public $limit;
+    public $name;
 
     public $params;
     public $threshold = 2;
     public $resultBoxHeight = 4;
 
     abstract public function query(string $term);
-    abstract public function valueChanged($data);
+    protected $listeners = ['valueChanged'];
 
     public function mount($limit = null)
     {
@@ -36,6 +37,11 @@ abstract class Autocomplete extends Component
     public function updatedSelected()
     {
         $this->emitSelf('valueChanged', $this->selected);
+    }
+
+    public function valueChanged($data)
+    {
+        $this->emitUp(strtolower($this->name). 'Changed', $data);
     }
 
 
