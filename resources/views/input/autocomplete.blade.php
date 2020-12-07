@@ -216,12 +216,12 @@
          data-component-id="{{$this->id}}"
     >
 
-        <x-sunfire::input.base-input-container :label="$label" :id="$this->id . '_input'" :inline="$inline">
+        <x-sunfire::input.base-input-container labelClasses="{{$errors->any() ? 'text-red-600' : ''}}" :label="$label" :id="$this->id . '_input'" :inline="$inline">
 
             <div x-on:click="$refs.textInput ? $refs.textInput.focus() : null"
                  x-on:click.away="clearSearch()"
                  x-on:keydown.escape="clearSearch()"
-                 class="flex form-multiselect items-center justify-start pl-1 py-0 text-base text-white tracking-wider font-semibold leading-6 border-gray-300 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5">
+                 class="@error('selected') border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500 @enderror flex form-multiselect items-center justify-start pl-1 py-0 text-base text-white tracking-wider font-semibold leading-6 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5">
 
                 <div class="flex flex-wrap flex-1 overflow-hidden relative box-border min-h-8">
 
@@ -254,11 +254,10 @@
                               tabindex="0"
                               aria-autocomplete="list"></span>
                     </div>
-
                 </div>
-
-
             </div>
+
+            @error('selected') <p class="mt-2 text-sm text-red-600" id="{{$this->name}}-error">{{$message}}</p> @enderror
 
             <div x-show="open" class="absolute mt-1 w-full rounded-md bg-white shadow-lg z-10">
                 <ul tabindex="-1" role="listbox" aria-labelledby="listbox-label"
