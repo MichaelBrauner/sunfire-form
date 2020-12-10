@@ -14,7 +14,7 @@ abstract class Autocomplete extends Component
     public $selected;
 
     public $label;
-    public $inline;
+    public $inline = true;
     public $class;
     public $limit;
     public $name;
@@ -29,10 +29,8 @@ abstract class Autocomplete extends Component
 
     public function mount($limit = null)
     {
-
         $this->results = collect();
         $this->selected = collect();
-        $this->inline = true;
         $this->limit = !$limit ? null : intval($limit);
     }
 

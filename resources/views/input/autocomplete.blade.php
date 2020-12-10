@@ -9,6 +9,7 @@
                 highlightedIndex: null,
                 results: [],
                 open: false,
+                waiting: false,
                 threshold: @entangle('threshold'),
                 resultBoxHeight: 'auto',
                 resultBoxHeightItemRange: @entangle('resultBoxHeight'),
@@ -26,6 +27,9 @@
                 },
                 toggleSearch() {
                     this.open = this.searchTerm !== '' && this.isTermLongEnough(this.searchTerm)
+                },
+                toggleWaiting() {
+                    this.waiting = !this.waiting;
                 },
                 backspace(event) {
 
@@ -97,7 +101,10 @@
                     const termExists = this.$wire.selected.some(item => item.name.trim() === term, term)
 
                     if (this.isTermLongEnough(term)) {
+
+                        this.toggleWaiting()
                         this.results = await this.$wire.query(term)
+                        this.toggleWaiting()
 
                         // if there isn't a fitting result
                         if (this.results.filter(tag => tag.name.trim() === term).length === 0) {
@@ -241,7 +248,7 @@
                     @endforeach
 
 
-                    <div class="box-border inline-flex">
+                    <div class="box-border inline-flex text-gray-500 items-center">
                         <span x-ref="textInput"
                               x-on:focus="moveCursorToEnd()"
                               contenteditable
@@ -254,6 +261,7 @@
                               spellcheck="false"
                               tabindex="0"
                               aria-autocomplete="list"></span>
+                        <x-sunfire::svg.spinner x-cloak x-show="waiting" class="ml-1 w-6 h-6"/>
                     </div>
                 </div>
             </div>
