@@ -24,10 +24,12 @@ abstract class Autocomplete extends Component
     public $resultBoxHeight = 4;
 
     abstract public function query(string $term);
+
     protected $listeners = ['valueChanged'];
 
     public function mount($limit = null)
     {
+
         $this->results = collect();
         $this->selected = collect();
         $this->inline = true;
@@ -64,29 +66,50 @@ abstract class Autocomplete extends Component
             return false;
         }
 
-        if (!$uuid || $uuid === '__add-this__') {
+        if ($this->itemShouldBeAdded($uuid)) {
             $uuid = Str::uuid()->toString();
         }
 
-        if ($this->selected->filter(fn($item) => $item['name'] === $string)->isEmpty()) {
-            $this->selected = $this->selected->push($this->makeItem($uuid, $string));
+        if ($this->itemIsNotSelectedYet($uuid)) {
+            $this->selected = $this->selected->push($this->makeItem([
+                'uuid' => $uuid,
+                'name' => $string
+            ]));
         }
 
         $this->updatedSelected();
         return true;
     }
 
+
+    public function makeItem(array $attributes): array
+    {
+        return $attributes;
+    }
+
+    protected function itemIsNotSelectedYet($uuid)
+    {
+        return $this->selected->filter(fn($item) => $item['uuid'] === $uuid)->isEmpty();
+    }
+
+    protected function itemShouldBeAdded($uuid): bool
+    {
+        return !$uuid || $uuid === '__add-this__';
+    }
+
+    public function dehydrate()
+    {
+        $error = $this->getErrorBag()->first('selected');
+
+        if ($error) {
+            $this->emitUp($this->name . 'HasError', $error);
+        }
+    }
+
+
     public function render()
     {
         return view('sunfire::input.autocomplete');
-    }
-
-    public function makeItem(string $uuid, string $name)
-    {
-        return [
-            'uuid' => $uuid,
-            'name' => $name
-        ];
     }
 }
 
