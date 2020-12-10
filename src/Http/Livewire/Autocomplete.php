@@ -41,7 +41,8 @@ abstract class Autocomplete extends Component
 
     public function valueChanged($data)
     {
-        $this->emitUp(strtolower($this->name). 'Changed', $data);
+        $this->validateOnly('selected');
+        $this->emitUp(strtolower($this->name) . 'Changed', $data);
     }
 
 

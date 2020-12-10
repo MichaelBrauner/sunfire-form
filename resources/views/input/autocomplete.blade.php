@@ -215,8 +215,9 @@
          data-last-item-uuid="{{$this->selected->last() ? $this->selected->last()['uuid'] : null }}"
          data-component-id="{{$this->id}}"
     >
-
-        <x-sunfire::input.base-input-container labelClasses="{{$errors->any() ? 'text-red-600' : ''}}" :label="$label" :id="$this->id . '_input'" :inline="$inline">
+        <x-sunfire::input.base-input-container :labelClasses="$errors->first('selected') ? 'text-red-600' : '' "
+                                               :label="$label"
+                                               :id="$this->id . '_input'" :inline="$inline">
 
             <div x-on:click="$refs.textInput ? $refs.textInput.focus() : null"
                  x-on:click.away="clearSearch()"
@@ -230,7 +231,7 @@
                              style="margin-top: 0.35rem"
                              wire:key="{{ $item['uuid'] }}">
 
-                            <span class="ml-2 leading-relaxed truncate max-w-xs">{{$item['name']}}</span>
+                            <span class="ml-2 text-white leading-relaxed truncate max-w-xs">{{$item['name']}}</span>
 
                             <button wire:click.prevent="removeItem('{{$item['uuid']}}')"
                                     class="w-6 h-6 inline-block align-middle text-gray-500 hover:text-gray-100 focus:outline-none">
@@ -257,7 +258,8 @@
                 </div>
             </div>
 
-            @error('selected') <p class="mt-2 text-sm text-red-600" id="{{$this->name}}-error">{{$message}}</p> @enderror
+            @error('selected') <p class="mt-2 text-sm text-red-600"
+                                  id="{{$this->name}}-error">{{$message}}</p> @enderror
 
             <div x-show="open" class="absolute mt-1 w-full rounded-md bg-white shadow-lg z-10">
                 <ul tabindex="-1" role="listbox" aria-labelledby="listbox-label"
