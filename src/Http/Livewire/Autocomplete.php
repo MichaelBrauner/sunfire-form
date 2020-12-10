@@ -22,6 +22,7 @@ abstract class Autocomplete extends Component
     public $params;
     public $threshold = 2;
     public $resultBoxHeight = 4;
+    public $errorEvent = null;
 
     abstract public function query(string $term);
 
@@ -99,9 +100,16 @@ abstract class Autocomplete extends Component
     {
         $error = $this->getErrorBag()->first('selected');
 
-        if ($error) {
-            $this->emitUp($this->name . 'HasError', $error);
+        if (!$error) {
+            return;
         }
+
+        if ($this->errorEvent) {
+            $this->emitUp($this->errorEvent, $this->name,  $error);
+            return;
+        }
+
+        $this->emitUp($this->name . 'HasError', $error);
     }
 
 
