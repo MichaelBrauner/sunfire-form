@@ -247,33 +247,33 @@
          data-last-item-uuid="{{$this->selected->last() ? $this->selected->last()['uuid'] : null }}"
          data-component-id="{{$this->id}}"
     >
-        <x-sunfire::input.base-input-container :labelClasses="$errors->first('selected') ? 'text-red-600' : '' "
-                                               :label="$label"
-                                               :id="$this->id . '_input'" :inline="$inline">
+        <x-sunfire::input.base-input-container
+                :labelClasses="$errors->first('selected') ? $options['label.error.style'] : '' "
+                :label="$label"
+                :id="$this->id . '_input'" :inline="$inline">
 
             <div x-on:click="$refs.textInput ? $refs.textInput.focus() : null"
                  x-on:click.away="clearSearch()"
                  x-on:keydown.escape="clearSearch()"
-                 class="@error('selected') border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500 @enderror flex form-multiselect items-center justify-start pl-1 py-0 text-base text-white tracking-wider font-semibold leading-6 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5">
+                 class="@error('selected') {{$options['input.error.style']}} @enderror {{$options['input.style']}} ">
 
-                <div class="flex flex-wrap flex-1 overflow-hidden relative box-border min-h-8">
+                <div class="{{$options['input.container.style']}}">
 
                     @foreach($selected as $item)
-                        <div class="bg-gray-600 h-6 inline-flex items-center text-sm rounded box-border mr-1"
-                             style="margin-top: 0.35rem"
+                        <div class="{{$options['input.item.container.style']}}"
                              wire:key="{{ $item['uuid'] }}">
 
-                            <span class="ml-2 text-white leading-relaxed truncate max-w-xs">{{$item['name']}}</span>
+                            <span class="{{$options['input.item.span.style']}}">{{$item['name']}}</span>
 
                             <button wire:click.prevent="removeItem('{{$item['uuid']}}')"
-                                    class="w-6 h-6 inline-block align-middle text-gray-500 hover:text-gray-100 focus:outline-none">
-                                <x-svg.x class="w-6 h-6 fill-current mx-auto"/>
+                                    class="{{$options['input.item.removeButton.style']}}">
+                                <x-svg.x class="{{$options['input.item.removeButton.x-svg.style']}}"/>
                             </button>
                         </div>
                     @endforeach
 
 
-                    <div class="box-border inline-flex text-gray-500 items-center">
+                    <div class="{{$options['input.typeBox.style']}}">
                         <span x-ref="textInput"
                               x-on:focus="moveCursorToEnd()"
                               contenteditable
@@ -281,40 +281,42 @@
                               x-on:input.debounce="searchForTerm($event.target.innerText)"
                               wire:ignore
                               id="{{$this->id}}_textInput"
-                              class="text-black box-content outline-none h-auto py-2 p-0 opacity-100 overflow-visible text-sm text-light text-neutral flex items-center"
+                              class="{{$options['input.typeBox.span.style']}}"
                               autocapitalize="none"
                               spellcheck="false"
                               tabindex="0"
                               aria-autocomplete="list"></span>
-                        <x-sunfire::svg.spinner x-cloak x-show="waiting" class="ml-1 w-6 h-6"/>
+                        <x-sunfire::svg.spinner x-cloak x-show="waiting"
+                                                class="{{$options['input.typeBox.loadingSpinner.style']}}"/>
                     </div>
                 </div>
             </div>
 
-            @error('selected') <p class="mt-2 text-sm text-red-600"
+            @error('selected') <p class="{{$options['input.error.text.style']}}"
                                   id="{{$this->name}}-error">{{$message}}</p> @enderror
 
-            <div x-show="open" class="absolute mt-1 w-full rounded-md bg-white shadow-lg z-10">
+            <div x-show="open" class="{{$options['results.style']}}">
                 <ul tabindex="-1" role="listbox" aria-labelledby="listbox-label"
                     aria-activedescendant="listbox-item-3"
                     x-ref="resultList"
                     x-bind:style="`max-height: ${resultBoxHeight}`"
-                    class="max-h-60 rounded-md text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5">
+                    class="{{$options['results.ul.style']}}">
 
                     <template x-for="(item, index) in Object.values(results)" :key="index">
 
                         <li :id="'listbox-option-' + item.uuid" role="option"
                             x-on:click="addTagByUuid($event)"
                             :data-list-key="index"
-                            :class="{'text-white bg-gray-600': highlightedIndex === index, 'text-gray-800': highlightedIndex !== index }"
-                            class="cursor-default select-none relative py-2 pl-3 pr-9 hover:text-white hover:bg-gray-700">
-                            <span class="font-normal block truncate"
+                            :class="{ '{{$options['results.item.highlighted.style']}}' : highlightedIndex === index, '{{$options['results.item.notHighlighted.style']}}': highlightedIndex !== index }"
+                            class="{{$options['results.item.style']}}">
+                            <span class="{{$options['results.item.span.style']}}"
                                   :class="{'font-semibold': highlightedIndex === index, 'font-normal': highlightedIndex !== index}"
                                   x-text="item.uuid !== '__add-this__' ? item.name : '{{__('Add')}} '+ item.name"
                                   :data-uuid="item.uuid"
                                   :data-span-list-key="index"></span>
                             </span>
                         </li>
+
                     </template>
 
                 </ul>

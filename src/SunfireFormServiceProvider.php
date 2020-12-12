@@ -13,7 +13,7 @@ class SunfireFormServiceProvider extends ServiceProvider
 
     public function register()
     {
-        // register something
+        $this->mergeConfigFrom(__DIR__.'/../config/autocomplete-options.php', 'sunfire.autocomplete.options');
     }
 
     public function boot()

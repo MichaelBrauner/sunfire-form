@@ -4,6 +4,7 @@ namespace Sunfire\Form\Http\Livewire;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use Livewire\Component;
 
 abstract class Autocomplete extends Component
@@ -24,6 +25,8 @@ abstract class Autocomplete extends Component
     public $resultBoxHeight = 4;
     public $errorEvent = null;
 
+    public $options;
+
     abstract public function query(string $term);
 
     protected $listeners = ['valueChanged'];
@@ -33,6 +36,7 @@ abstract class Autocomplete extends Component
         $this->results = collect();
         $this->selected = collect();
         $this->limit = !$limit ? null : intval($limit);
+        $this->options = Arr::dot(config('sunfire.autocomplete.options'));
     }
 
     public function updatedSelected()
@@ -105,7 +109,7 @@ abstract class Autocomplete extends Component
         }
 
         if ($this->errorEvent) {
-            $this->emitUp($this->errorEvent, $this->name,  $error);
+            $this->emitUp($this->errorEvent, $this->name, $error);
             return;
         }
 
