@@ -102,9 +102,7 @@
 
                     if (this.isTermLongEnough(term)) {
 
-                        this.toggleWaiting()
-                        this.results = await this.$wire.query(term)
-                        this.toggleWaiting()
+                        this.results = await this.handleWaiting(this.$wire.query(term), 500);
 
                         // if there isn't a fitting result
                         if (this.results.filter(tag => tag.name.trim() === term).length === 0) {
@@ -209,7 +207,34 @@
                             boundary: this.$el
                         });
                     }
-                }
+                },
+                async handleWaiting(promise, timeout) {
+                    return new Promise((res, rej) => {
+                        let loadingStarted = false;
+
+                        const timeoutInstance = setTimeout(() => {
+                            loadingStarted = true;
+                            this.waiting = true;
+                        }, timeout);
+
+                        const onFinished = () => {
+                            if (loadingStarted) {
+                                this.waiting = false;
+                            }
+                            clearTimeout(timeoutInstance);
+                        }
+
+                        promise
+                            .then((result) => {
+                                onFinished();
+                                res(result);
+                            })
+                            .catch((ex) => {
+                                onFinished();
+                                rej(ex);
+                            });
+                    });
+                },
             }
         }
 
