@@ -248,32 +248,32 @@
          data-component-id="{{$this->id}}"
     >
         <x-sunfire::input.base-input-container
-                :labelClasses="$errors->first('selected') ? $options['label.error.style'] : '' "
+                :labelClasses="$errors->first('selected') ? $this->getOption('label.error.style') : '' "
                 :label="$label"
                 :id="$this->id . '_input'" :inline="$inline">
 
             <div x-on:click="$refs.textInput ? $refs.textInput.focus() : null"
                  x-on:click.away="clearSearch()"
                  x-on:keydown.escape="clearSearch()"
-                 class="@error('selected') {{$options['input.error.style']}} @enderror {{$options['input.style']}} ">
+                 class="@error('selected') {{ $this->getOption('input.error.style') }} @enderror {{$this->getOption('input.style')}} ">
 
-                <div class="{{$options['input.container.style']}}">
+                <div class="{{$this->getOption('input.container.style')}}">
 
                     @foreach($selected as $item)
-                        <div class="{{$options['input.item.container.style']}}"
+                        <div class="{{$this->getOption('input.item.container.style')}}"
                              wire:key="{{ $item['uuid'] }}">
 
-                            <span class="{{$options['input.item.span.style']}}">{{$item['name']}}</span>
+                            <span class="{{$this->getOption('input.item.span.style')}}">{{$item['name']}}</span>
 
                             <button wire:click.prevent="removeItem('{{$item['uuid']}}')"
-                                    class="{{$options['input.item.removeButton.style']}}">
-                                <x-svg.x class="{{$options['input.item.removeButton.x-svg.style']}}"/>
+                                    class="{{$this->getOption('input.item.removeButton.style')}}">
+                                <x-svg.x class="{{$this->getOption('input.item.removeButton.x-svg.style')}}"/>
                             </button>
                         </div>
                     @endforeach
 
 
-                    <div class="{{$options['input.typeBox.style']}}">
+                    <div class="{{$this->getOption('input.typeBox.style')}}">
                         <span x-ref="textInput"
                               x-on:focus="moveCursorToEnd()"
                               contenteditable
@@ -281,35 +281,35 @@
                               x-on:input.debounce="searchForTerm($event.target.innerText)"
                               wire:ignore
                               id="{{$this->id}}_textInput"
-                              class="{{$options['input.typeBox.span.style']}}"
+                              class="{{$this->getOption('input.typeBox.span.style')}}"
                               autocapitalize="none"
                               spellcheck="false"
                               tabindex="0"
                               aria-autocomplete="list"></span>
                         <x-sunfire::svg.spinner x-cloak x-show="waiting"
-                                                class="{{$options['input.typeBox.loadingSpinner.style']}}"/>
+                                                class="{{$this->getOption('input.typeBox.loadingSpinner.style')}}"/>
                     </div>
                 </div>
             </div>
 
-            @error('selected') <p class="{{$options['input.error.text.style']}}"
+            @error('selected') <p class="{{$this->getOption('input.error.text.style')}}"
                                   id="{{$this->name}}-error">{{$message}}</p> @enderror
 
-            <div x-show="open" class="{{$options['results.style']}}">
+            <div x-show="open" class="{{$this->getOption('results.style')}}">
                 <ul tabindex="-1" role="listbox" aria-labelledby="listbox-label"
                     aria-activedescendant="listbox-item-3"
                     x-ref="resultList"
                     x-bind:style="`max-height: ${resultBoxHeight}`"
-                    class="{{$options['results.ul.style']}}">
+                    class="{{$this->getOption('results.ul.style')}}">
 
                     <template x-for="(item, index) in Object.values(results)" :key="index">
 
                         <li :id="'listbox-option-' + item.uuid" role="option"
                             x-on:click="addTagByUuid($event)"
                             :data-list-key="index"
-                            :class="{ '{{$options['results.item.highlighted.style']}}' : highlightedIndex === index, '{{$options['results.item.notHighlighted.style']}}': highlightedIndex !== index }"
-                            class="{{$options['results.item.style']}}">
-                            <span class="{{$options['results.item.span.style']}}"
+                            :class="{ '{{$this->getOption('results.item.highlighted.style')}}' : highlightedIndex === index, '{{$this->getOption('results.item.notHighlighted.style')}}': highlightedIndex !== index }"
+                            class="{{$this->getOption('results.item.style')}}">
+                            <span class="{{$this->getOption('results.item.span.style')}}"
                                   :class="{'font-semibold': highlightedIndex === index, 'font-normal': highlightedIndex !== index}"
                                   x-text="item.uuid !== '__add-this__' ? item.name : '{{__('Add')}} '+ item.name"
                                   :data-uuid="item.uuid"

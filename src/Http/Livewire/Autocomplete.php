@@ -17,7 +17,7 @@ abstract class Autocomplete extends Component
     public $label;
     public $inline = true;
     public $class;
-    public $limit;
+    public $limit = null;
     public $name;
 
     public $params;
@@ -25,18 +25,26 @@ abstract class Autocomplete extends Component
     public $resultBoxHeight = 4;
     public $errorEvent = null;
 
-    public $options;
+    public $options = null;
 
     abstract public function query(string $term);
 
     protected $listeners = ['valueChanged'];
 
-    public function mount($limit = null)
+    public function mount()
     {
+        if (method_exists($this, 'options')) {
+            $this->options = $this->options();
+        }
+
+        $this->options = $this->options
+            ? array_replace_recursive(config('sunfire.autocomplete.options'), $this->options)
+            : config('sunfire.autocomplete.options');
+
         $this->results = collect();
         $this->selected = collect();
-        $this->limit = !$limit ? null : intval($limit);
-        $this->options = Arr::dot(config('sunfire.autocomplete.options'));
+        $this->limit = !$this->limit ? null : intval($this->limit);
+
     }
 
     public function updatedSelected()
@@ -114,6 +122,20 @@ abstract class Autocomplete extends Component
         }
 
         $this->emitUp($this->name . 'HasError', $error);
+    }
+
+    public function getOption(string $key)
+    {
+        $result = Arr::get($this->options, $key);
+
+        if (is_array($result)) {
+            return join(' ', Arr::flatten(
+                $result
+            ));
+        }
+
+        return $result;
+
     }
 
 

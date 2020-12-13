@@ -1,92 +1,180 @@
 <?php
 
- return [
+return [
 
-     'label' => [
+    'label' => [
 
-         'error' => [
-             'style' => 'text-red-600'
-         ],
+        'error' => [
+            'style' => [
+                'text' => 'text-red-600'
+            ]
+        ],
 
-     ],
+    ],
 
-     'input' => [
+    'input' => [
 
-         'error' => [
+        'error' => [
 
-             'text' => [
-                 'style' => 'mt-2 text-sm text-red-600'
-             ],
+            'text' => [
+                'style' => [
+                    'text' => 'text-sm text-red-600',
+                    'spacing' => 'mt-2'
+                ]
+            ],
 
-             'style' => 'border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500',
-         ],
+            'style' => [
+                'border' => 'border-red-300 focus:border-red-500',
+                'text' => 'text-red-900',
+                'placeholder' => 'placeholder-red-300',
+                'outline' => 'focus:outline-none',
+                'ring' => 'focus:ring-red-500'
+            ]
 
-         'container' => [
-             'style' => 'flex flex-wrap flex-1 overflow-hidden relative box-border min-h-8'
-         ],
+        ],
 
-         'item' => [
+        'container' => [
+            'style' => [
+                'display' => 'flex flex-wrap flex-1',
+                'overflow' => 'overflow-hidden ',
+                'position' => 'relative',
+                'border' => 'box-border',
+                'sizing' => 'min-h-8'
+            ]
 
-             'container' => [
-                 'style' => 'bg-gray-600 h-6 inline-flex items-center text-sm rounded box-border mr-1 mt-1.5'
-             ],
+        ],
 
-             'span' => [
-                 'style' => 'ml-2 text-white leading-relaxed truncate max-w-xs'
-             ],
+        'item' => [
 
-             'removeButton' => [
+            'container' => [
+                'style' => [
+                    'background' => 'bg-gray-600',
+                    'sizing' => 'h-6',
+                    'display' => 'inline-flex items-center',
+                    'text' => 'text-sm',
+                    'border' => 'rounded box-border',
+                    'spacing' => 'mr-1 mt-1.5'
+                ]
+            ],
 
-                 'x-svg' => [
-                     'style' => 'w-6 h-6 fill-current mx-auto'
-                 ],
+            'span' => [
+                'style' =>
+                    [
+                        'spacing' => 'ml-2 truncate',
+                        'text' => 'text-white leading-relaxed',
+                        'sizing' => 'max-w-xs'
+                    ]
+            ],
 
-                 'style' => 'w-6 h-6 inline-block align-middle text-gray-500 hover:text-gray-100 focus:outline-none'
+            'removeButton' => [
 
-             ]
-         ],
+                'x-svg' => [
+                    'style' => [
+                        'sizing' => 'w-6 h-6',
+                        'color' => 'fill-current',
+                        'spacing' => 'mx-auto'
+                    ]
+                ],
 
-         'typeBox' => [
+                'style' => [
+                    'sizing' => 'w-6 h-6',
+                    'display' => 'inline-block align-middle',
+                    'text' => 'text-gray-500 hover:text-gray-100',
+                    'outline' => 'focus:outline-none'
+                ]
 
-             'span' => [
-                 'style' => 'text-black box-content outline-none h-auto py-2 p-0 opacity-100 overflow-visible text-sm text-light text-neutral flex items-center'
-             ],
+            ]
+        ],
 
-             'loadingSpinner' => [
-                 'style' => 'ml-1 w-6 h-6'
-             ],
+        'typeBox' => [
 
-             'style' => 'box-border inline-flex text-gray-500 items-center'
-         ],
+            'span' => [
+                'style' => [
+                    'text' => 'text-black text-sm text-light text-neutral',
+                    'box' => 'box-content',
+                    'outline' => 'outline-none',
+                    'sizing' => 'h-auto',
+                    'spacing' => 'py-2 p-0',
+                    'opacity' => 'opacity-100',
+                    'overflow' => 'overflow-visible',
+                    'display' => 'flex items-center'
+                ]
+            ],
 
-         'style' => 'flex form-multiselect items-center justify-start pl-1 py-0 text-base text-white tracking-wider font-semibold leading-6 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5'
+            'loadingSpinner' => [
+                'style' => [
+                    'spacing' => 'ml-1',
+                    'sizing' => 'w-6 h-6'
+                ]
+            ],
 
-     ],
+            'style' => [
+                'box' => 'box-border',
+                'text' => 'inline-flex text-gray-500'
+            ]
+        ],
 
-     'results' => [
+        'style' => [
+            'text' => 'text-base text-white tracking-wider font-semibold leading-6 sm:text-sm sm:leading-5',
+            'box' => 'box-content',
+            'outline' => 'focus:outline-none focus:shadow-outline-blue',
+            'spacing' => 'pl-1 py-0',
+            'display' => 'flex items-center justify-start',
+            'extra' => 'form-multiselect',
+            'border' => 'focus:border-blue-300',
+        ]
 
-         'ul' => [
-             'style' => 'max-h-60 rounded-md text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5'
-         ],
+    ],
 
-         'item' => [
+    'results' => [
 
-             'span' => [
-                 'style' => 'font-normal block truncate'
-             ],
+        'ul' => [
+            'style' => [
+                'sizing' => 'max-h-60',
+                'border' => 'rounded-md',
+                'text' => 'text-base leading-6 sm:text-sm sm:leading-5',
+                'shadow' => 'shadow-xs',
+                'overflow' => 'overflow-auto',
+                'outline' => 'focus:outline-none',
+            ]
+        ],
 
-             'highlighted' => [
-                 'style' => 'text-white bg-gray-600'
-             ],
+        'item' => [
 
-             'notHighlighted' => [
-                 'style' => 'text-gray-800'
-             ],
+            'span' => [
+                'style' => [
+                    'text' => 'font-normal truncate',
+                    'display' => 'block'
+                ]
+            ],
 
-             'style' => 'cursor-default select-none relative py-2 pl-3 pr-9 hover:text-white hover:bg-gray-700'
-         ],
+            'highlighted' => [
+                'style' => ['text' => 'text-white', 'background' => 'bg-gray-600']
+            ],
 
-         'style' => 'absolute mt-1 w-full rounded-md bg-white shadow-lg z-10'
-     ]
+            'notHighlighted' => [
+                'style' => ['text' => 'text-gray-800']
+            ],
 
- ];
+            'style' => [
+                'cursor' => 'cursor-default',
+                'select' => 'select-none',
+                'position' => 'relative',
+                'spacing' => 'py-2 pl-3 pr-9',
+                'text' => 'hover:text-white',
+                'background' => 'hover:bg-gray-700'
+            ]
+        ],
+
+        'style' => [
+            'position' => 'absolute',
+            'spacing' => 'mt-1',
+            'sizing' => 'w-full',
+            'border' => 'rounded-md',
+            'background' => 'bg-white',
+            'shadow' => 'shadow-lg',
+            'z-index' => 'z-10'
+        ]
+    ]
+
+];
