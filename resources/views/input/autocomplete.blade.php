@@ -208,32 +208,17 @@
                         });
                     }
                 },
-                async handleWaiting(promise, timeout) {
-                    return new Promise((res, rej) => {
-                        let loadingStarted = false;
+                handleWaiting(promise, timeout) {
 
-                        const timeoutInstance = setTimeout(() => {
-                            loadingStarted = true;
-                            this.waiting = true;
-                        }, timeout);
+                    const timeoutInstance = setTimeout(() => {
+                        this.waiting = true;
+                    }, timeout);
 
-                        const onFinished = () => {
-                            if (loadingStarted) {
-                                this.waiting = false;
-                            }
-                            clearTimeout(timeoutInstance);
-                        }
-
-                        promise
-                            .then((result) => {
-                                onFinished();
-                                res(result);
-                            })
-                            .catch((ex) => {
-                                onFinished();
-                                rej(ex);
-                            });
+                    return promise.finally(() => {
+                        this.waiting = false;
+                        clearTimeout(timeoutInstance);
                     });
+
                 },
             }
         }
