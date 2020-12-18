@@ -233,7 +233,8 @@
          data-component-id="{{$this->id}}"
     >
         <x-sunfire::input.base-input-container
-                :labelClasses="$errors->first('selected') ? $this->getOption('label.error.style') : '' "
+                :options="$options"
+                labelClasses="{{$errors->first('selected') ? $this->getOption('label.error.style') : ''}} {{$this->getOption('label.style')}} "
                 :label="$label"
                 :id="$this->id . '_input'" :inline="$inline">
 
@@ -252,7 +253,7 @@
 
                             <button wire:click.prevent="removeItem('{{$item['uuid']}}')"
                                     class="{{$this->getOption('input.item.removeButton.style')}}">
-                                <x-svg.x class="{{$this->getOption('input.item.removeButton.x-svg.style')}}"/>
+                                <x-sunfire::svg.x class="{{$this->getOption('input.item.removeButton.x-svg.style')}}"/>
                             </button>
                         </div>
                     @endforeach

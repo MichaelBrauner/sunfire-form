@@ -19,7 +19,10 @@
         "laravel": {
             "providers": [
                 "Sunfire\\Form\\SunfireFormServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Options": "Sunfire\\Form\\Facades"
+            }
         }
     }
 }

@@ -9,9 +9,12 @@ return [
                 'text' => 'text-red-600'
             ]
         ],
-
+        'style' => [
+            'text' => 'text-sm leading-5 font-medium text-gray-700 break-words',
+        ],
+        'inline-style' => 'w-2/6',
+        'block-display' => 'block'
     ],
-
     'input' => [
 
         'error' => [
@@ -39,7 +42,8 @@ return [
                 'overflow' => 'overflow-hidden ',
                 'position' => 'relative',
                 'border' => 'box-border',
-                'sizing' => 'min-h-8'
+                'sizing' => 'min-h-8',
+                'background' => 'dark:bg-gray-300'
             ]
 
         ],
@@ -94,7 +98,7 @@ return [
                     'box' => 'box-content',
                     'outline' => 'outline-none',
                     'sizing' => 'h-auto',
-                    'spacing' => 'py-2 p-0',
+                    'spacing' => 'p-2',
                     'opacity' => 'opacity-100',
                     'overflow' => 'overflow-visible',
                     'display' => 'flex items-center'
@@ -118,7 +122,7 @@ return [
             'text' => 'text-base text-white tracking-wider font-semibold leading-6 sm:text-sm sm:leading-5',
             'box' => 'box-content',
             'outline' => 'focus:outline-none focus:shadow-outline-blue',
-            'spacing' => 'pl-1 py-0',
+            'spacing' => 'p-0',
             'display' => 'flex items-center justify-start',
             'extra' => 'form-multiselect',
             'border' => 'focus:border-blue-300',
@@ -136,6 +140,7 @@ return [
                 'shadow' => 'shadow-xs',
                 'overflow' => 'overflow-auto',
                 'outline' => 'focus:outline-none',
+                'background' => 'dark:bg-gray-600'
             ]
         ],
 
@@ -149,11 +154,11 @@ return [
             ],
 
             'highlighted' => [
-                'style' => ['text' => 'text-white', 'background' => 'bg-gray-600']
+                'style' => ['text' => 'text-white', 'background' => 'bg-gray-600 dark:bg-gray-800']
             ],
 
             'notHighlighted' => [
-                'style' => ['text' => 'text-gray-800']
+                'style' => ['text' => 'text-gray-800 dark:text-white']
             ],
 
             'style' => [

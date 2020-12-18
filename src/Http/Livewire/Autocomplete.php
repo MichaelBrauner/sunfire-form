@@ -6,6 +6,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
 use Livewire\Component;
+use Sunfire\Form\Facades\Options;
 
 abstract class Autocomplete extends Component
 {
@@ -31,15 +32,24 @@ abstract class Autocomplete extends Component
 
     protected $listeners = ['valueChanged'];
 
-    public function mount()
+    public function mount($options = null)
     {
+
+        // the public fuction option() can specify options
         if (method_exists($this, 'options')) {
             $this->options = $this->options();
         }
 
+        // if options are set - merge then with the default options array
         $this->options = $this->options
             ? array_replace_recursive(config('sunfire.autocomplete.options'), $this->options)
             : config('sunfire.autocomplete.options');
+
+        // if options are defined inside the template call - merge then last
+        // so they have the last word
+        if ($options) {
+            $this->options = array_replace_recursive($this->options, $options);
+        }
 
         $this->results = collect();
         $this->selected = collect();
@@ -126,16 +136,7 @@ abstract class Autocomplete extends Component
 
     public function getOption(string $key)
     {
-        $result = Arr::get($this->options, $key);
-
-        if (is_array($result)) {
-            return join(' ', Arr::flatten(
-                $result
-            ));
-        }
-
-        return $result;
-
+        return Options::getOption($key, $this->options);
     }
 
 
