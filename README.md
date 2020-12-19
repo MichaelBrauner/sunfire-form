@@ -1,4 +1,4 @@
-## About sunfire/form
+## About
 This package is part of the sunfire ecosystem. 
 
 It is designed to build custom form interfaces with the TALL-Stack and seamlessly interact with other sunfire packages.
